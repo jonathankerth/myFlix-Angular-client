@@ -15,22 +15,19 @@ const apiUrl = 'https://niccage.herokuapp.com/';
 export class FetchApiDataService {
   constructor(private http: HttpClient) {}
 
-  // User registration
-  public userRegistration(userDetails: any): Observable<any> {
+  userRegistration(userDetails: any): Observable<any> {
     return this.http
       .post(apiUrl + 'users', userDetails)
       .pipe(catchError(this.handleError));
   }
 
-  // User login
-  public userLogin(credentials: any): Observable<any> {
+  userLogin(credentials: any): Observable<any> {
     return this.http
       .post(apiUrl + 'login', credentials)
       .pipe(catchError(this.handleError));
   }
 
-  // Get all movies
-  public getAllMovies(): Observable<any> {
+  getAllMovies(): Observable<any> {
     const token = localStorage.getItem('token');
 
     return this.http
@@ -42,8 +39,7 @@ export class FetchApiDataService {
       .pipe(map(this.extractResponseData), catchError(this.handleError));
   }
 
-  // Get one movie
-  public getMovie(movieId: string): Observable<any> {
+  getMovie(movieId: string): Observable<any> {
     const token = localStorage.getItem('token');
 
     return this.http
@@ -55,8 +51,7 @@ export class FetchApiDataService {
       .pipe(map(this.extractResponseData), catchError(this.handleError));
   }
 
-  // Get director
-  public getDirector(directorId: string): Observable<any> {
+  getDirector(directorId: string): Observable<any> {
     const token = localStorage.getItem('token');
 
     return this.http
@@ -68,8 +63,7 @@ export class FetchApiDataService {
       .pipe(map(this.extractResponseData), catchError(this.handleError));
   }
 
-  // Get genre
-  public getGenre(genreName: string): Observable<any> {
+  getGenre(genreName: string): Observable<any> {
     const token = localStorage.getItem('token');
 
     return this.http
@@ -81,8 +75,7 @@ export class FetchApiDataService {
       .pipe(map(this.extractResponseData), catchError(this.handleError));
   }
 
-  // Get user
-  public getUser(username: string): Observable<any> {
+  getUser(username: string): Observable<any> {
     const token = localStorage.getItem('token');
 
     return this.http
@@ -94,8 +87,7 @@ export class FetchApiDataService {
       .pipe(map(this.extractResponseData), catchError(this.handleError));
   }
 
-  // Get favourite movies for a user
-  public getFavouriteMovies(username: string): Observable<any> {
+  getFavouriteMovies(username: string): Observable<any> {
     const token = localStorage.getItem('token');
 
     return this.http
@@ -107,11 +99,7 @@ export class FetchApiDataService {
       .pipe(map(this.extractResponseData), catchError(this.handleError));
   }
 
-  // Add a movie to favourite Movies
-  public addMovieToFavourites(
-    username: string,
-    movieId: string
-  ): Observable<any> {
+  addMovieToFavourites(username: string, movieId: string): Observable<any> {
     const token = localStorage.getItem('token');
 
     return this.http
@@ -127,8 +115,7 @@ export class FetchApiDataService {
       .pipe(catchError(this.handleError));
   }
 
-  // Edit user
-  public editUser(username: string, userData: any): Observable<any> {
+  editUser(username: string, userData: any): Observable<any> {
     const token = localStorage.getItem('token');
 
     return this.http
@@ -140,8 +127,7 @@ export class FetchApiDataService {
       .pipe(catchError(this.handleError));
   }
 
-  // Delete user
-  public deleteUser(username: string): Observable<any> {
+  deleteUser(username: string): Observable<any> {
     const token = localStorage.getItem('token');
 
     return this.http
@@ -153,8 +139,7 @@ export class FetchApiDataService {
       .pipe(catchError(this.handleError));
   }
 
-  // Delete a movie from the favorite movies
-  public deleteMovieFromFavourites(
+  deleteMovieFromFavourites(
     username: string,
     movieId: string
   ): Observable<any> {
@@ -169,19 +154,19 @@ export class FetchApiDataService {
       .pipe(catchError(this.handleError));
   }
 
-  private extractResponseData(res: Response): any {
+  private extractResponseData(res: any): any {
     const body = res;
     return body || {};
   }
 
-  private handleError(error: HttpErrorResponse): Observable<any> {
+  private handleError(error: HttpErrorResponse): Observable<never> {
     if (error.error instanceof ErrorEvent) {
-      console.error('Some error occurred:', error.error.message);
+      console.error('An error occurred:', error.error.message);
     } else {
       console.error(
-        `Error Status code ${error.status}, ` + `Error body is: ${error.error}`
+        `Error status code ${error.status}, ` + `Error body: ${error.error}`
       );
     }
-    return throwError('Something bad happened; please try again later.');
+    return throwError('Something went wrong; please try again later.');
   }
 }

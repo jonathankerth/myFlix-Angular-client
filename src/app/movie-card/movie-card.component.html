@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<div class="movie-card-container">
+  <div class="movie-card" *ngFor="let movie of movies">
+    <img class="movie-image" [src]="movie.ImagePath" alt="{{ movie.title }}" />
+    <div class="movie-details">
+      <div class="movie-title">{{ movie.title }}</div>
+      <div class="movie-director">
+        Directed by: {{ movie.director.name || "Unknown" }}
+      </div>
+      <div class="movie-genre">Genre: {{ movie.genre.name || "Unknown" }}</div>
+      <div class="movie-synopsis">Synopsis: {{ movie.synopsis || "N/A" }}</div>
+      <div class="movie-actions">
+        <button mat-icon-button>
+          <mat-icon>favorite_border</mat-icon>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
