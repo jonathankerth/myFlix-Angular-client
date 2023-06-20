@@ -23,7 +23,7 @@ export class UserLoginFormComponent implements OnInit {
 
   // This is the function responsible for sending the login credentials to the backend
   loginUser(): void {
-    this.fetchApiData.userLogin(this.loginData).subscribe(
+    this.fetchApiData.login(this.loginData).subscribe(
       (result) => {
         localStorage.setItem('token', result.token);
         localStorage.setItem('user', result.user.Username);
@@ -41,5 +41,11 @@ export class UserLoginFormComponent implements OnInit {
         });
       }
     );
+  }
+
+  logoutUser(): void {
+    localStorage.clear();
+    this.dialogRef.close();
+    this.snackBar.open('You have been logged out. Please close the tab.', 'OK');
   }
 }

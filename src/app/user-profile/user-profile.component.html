@@ -30,8 +30,20 @@
       />
     </div>
   </div>
+
+  <h3>Favorited Movies</h3>
+
+  <div class="movie-list">
+    <ul>
+      <li *ngFor="let movie of user.favorites">
+        {{ movie?.title || "Unknown" }}
+      </li>
+    </ul>
+  </div>
+
   <button mat-raised-button color="primary" (click)="isEditing = !isEditing">
     {{ isEditing ? "Save" : "Edit" }}
   </button>
   <button mat-raised-button color="primary" routerLink="/movies">Movies</button>
+  <button mat-raised-button color="primary" (click)="logout()">Logout</button>
 </div>

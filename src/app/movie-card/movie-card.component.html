@@ -1,24 +1,38 @@
-<!DOCTYPE html>
-<button mat-raised-button color="primary" routerLink="/profile">
-  User Profile
-</button>
-<div class="movie-card-container">
-  <div class="movie-card" *ngFor="let movie of movies">
-    <img class="movie-image" [src]="movie.ImagePath" alt="{{ movie.title }}" />
-    <div class="movie-details">
-      <div class="movie-title">{{ movie.title }}</div>
-      <div class="movie-director">
-        Directed by: {{ movie.director.name || "Unknown" }}
-      </div>
-      <div class="movie-genre">Genre: {{ movie.genre.name || "Unknown" }}</div>
-      <div class="movie-synopsis">Synopsis: {{ movie.synopsis || "N/A" }}</div>
-      <div class="movie-actions">
-        <button mat-icon-button (click)="toggleFavoriteMovie(movie._id)">
-          <mat-icon>{{
-            isMovieFavorite(movie._id) ? "favorite" : "favorite_border"
-          }}</mat-icon>
-        </button>
-      </div>
-    </div>
-  </div>
+<div style="display: flex; flex-wrap: wrap; width: 100%; overflow: auto">
+  <button mat-raised-button color="primary" routerLink="/profile">
+    User Profile
+  </button>
+  <mat-card *ngFor="let movie of movies" style="flex: 1 1 auto; margin: 1rem">
+    <mat-card-header>
+      <mat-card-title>{{ movie.title }}</mat-card-title>
+      <mat-card-subtitle
+        >Directed by: {{ movie.director.name }}</mat-card-subtitle
+      >
+    </mat-card-header>
+    <img [src]="movie.ImagePath" alt="{{ movie.title }}" />
+    <mat-card-content>
+      <p>{{ movie.genre.description }}</p>
+      <p>Rating: {{ movie.rating }}</p>
+      <p>Year: {{ movie.year }}</p>
+      <p>Duration: {{ movie.duration }} minutes</p>
+      <p>Country: {{ movie.country }}</p>
+      <p>Actors: {{ movie.actors.join(", ") }}</p>
+    </mat-card-content>
+    <mat-card-actions>
+      <button
+        mat-icon-button
+        [color]="isMovieFavorite(movie._id) ? 'primary' : 'default'"
+        (click)="toggleFavoriteMovie(movie._id)"
+        matTooltip="{{
+          isMovieFavorite(movie._id)
+            ? 'Remove from favorites'
+            : 'Add to favorites'
+        }}"
+      >
+        <mat-icon>{{
+          isMovieFavorite(movie._id) ? "favorite" : "favorite_border"
+        }}</mat-icon>
+      </button>
+    </mat-card-actions>
+  </mat-card>
 </div>
