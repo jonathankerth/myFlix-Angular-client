@@ -13,8 +13,10 @@
       <div class="movie-genre">Genre: {{ movie.genre.name || "Unknown" }}</div>
       <div class="movie-synopsis">Synopsis: {{ movie.synopsis || "N/A" }}</div>
       <div class="movie-actions">
-        <button mat-icon-button>
-          <mat-icon>favorite_border</mat-icon>
+        <button mat-icon-button (click)="toggleFavoriteMovie(movie._id)">
+          <mat-icon>{{
+            isMovieFavorite(movie._id) ? "favorite" : "favorite_border"
+          }}</mat-icon>
         </button>
       </div>
     </div>
