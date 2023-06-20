@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<div class="user-profile">
+  <h2>User Profile</h2>
+  <div class="profile-details">
+    <div class="form-group">
+      <label for="username">Username:</label>
+      <input
+        type="text"
+        id="username"
+        [(ngModel)]="user.Username"
+        [disabled]="!isEditing"
+      />
+    </div>
+    <div class="form-group">
+      <label for="email">Email:</label>
+      <input
+        type="email"
+        id="email"
+        [(ngModel)]="user.Email"
+        [disabled]="!isEditing"
+      />
+    </div>
+    <div class="form-group">
+      <label for="birthday">Birthday:</label>
+      <input
+        type="date"
+        id="birthday"
+        [(ngModel)]="user.Birthday"
+        [disabled]="!isEditing"
+      />
+    </div>
+  </div>
+
+  <h3>Favorited Movies</h3>
+
+  <div class="movie-list">
+    <ul>
+      <li *ngFor="let movie of user.favorites">
+        {{ movie?.title || "Unknown" }}
+      </li>
+    </ul>
+  </div>
+
+  <button mat-raised-button color="primary" (click)="isEditing = !isEditing">
+    {{ isEditing ? "Save" : "Edit" }}
+  </button>
+  <button mat-raised-button color="primary" routerLink="/movies">Movies</button>
+  <button mat-raised-button color="primary" (click)="logout()">Logout</button>
+</div>
