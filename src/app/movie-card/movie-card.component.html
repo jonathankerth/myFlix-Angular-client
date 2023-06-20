@@ -21,17 +21,19 @@
     <mat-card-actions>
       <button
         mat-icon-button
-        [color]="isMovieFavorite(movie._id) ? 'primary' : 'default'"
-        (click)="toggleFavoriteMovie(movie._id)"
-        matTooltip="{{
-          isMovieFavorite(movie._id)
-            ? 'Remove from favorites'
-            : 'Add to favorites'
-        }}"
+        *ngIf="!isMovieFavorite(movie._id)"
+        (click)="addFavorite(movie._id)"
+        color="primary"
       >
-        <mat-icon>{{
-          isMovieFavorite(movie._id) ? "favorite" : "favorite_border"
-        }}</mat-icon>
+        <mat-icon>favorite_border</mat-icon>
+      </button>
+      <button
+        mat-icon-button
+        *ngIf="isMovieFavorite(movie._id)"
+        (click)="removeFavorite(movie._id)"
+        color="primary"
+      >
+        <mat-icon>favorite</mat-icon>
       </button>
     </mat-card-actions>
   </mat-card>

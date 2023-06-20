@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { FetchApiDataService } from '../fetch-api-data.service';
 import { MatDialog } from '@angular/material/dialog';
 import { MovieInfoComponent } from '../movie-info/movie-info.component';
-import { MatTooltipModule } from '@angular/material/tooltip';
 
 // This import is used to display notifications back to the user
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -24,33 +23,7 @@ export class MovieCardComponent implements OnInit {
 
   ngOnInit(): void {
     this.getMovies();
-    this.fetchUserFavorites(); // Call the method to fetch user favorites
-  }
-
-  fetchUserFavorites(): void {
-    const username = localStorage.getItem('user');
-    if (username) {
-      this.fetchApiData.getUserFavorites(username).subscribe(
-        (favorites: any[]) => {
-          this.favorites = favorites.map((movie) => movie._id);
-        },
-        (error: any) => {
-          console.error('Error retrieving user favorites:', error);
-        },
-        () => {
-          this.checkFavorites(); // Call the method to check favorites once fetched
-        }
-      );
-    } else {
-      console.error('Username not found in local storage');
-    }
-  }
-
-  checkFavorites(): void {
-    // Loop through the movies and set the favorite status
-    this.movies.forEach((movie) => {
-      movie.isFavorite = this.isMovieFavorite(movie._id);
-    });
+    this.getUserFavorites();
   }
 
   getMovies(): void {
@@ -106,25 +79,56 @@ export class MovieCardComponent implements OnInit {
     return this.favorites.includes(movieId);
   }
 
-  toggleFavoriteMovie(movieId: string): void {
+  addFavorite(movieId: string): void {
+    // Implement your add favorite logic here
     const username = localStorage.getItem('user');
-    if (this.isMovieFavorite(movieId)) {
-      this.fetchApiData
-        .deleteFavoriteMovie(username!, movieId)
-        .subscribe(() => {
-          // Movie removed from favorites list
+    if (username) {
+      this.fetchApiData.addFavoriteMovie(username, movieId).subscribe(
+        (response: any) => {
+          // Update the favorites list
+          this.favorites.push(movieId);
+          this.snackBar.open('Added to favorites', 'OK', {
+            duration: 2000,
+          });
+        },
+        (error: any) => {
+          console.error('Error adding movie to favorites:', error);
+          this.snackBar.open('Failed to add to favorites', 'OK', {
+            duration: 2000,
+          });
+        }
+      );
+    } else {
+      console.error('Username not found in local storage');
+      this.snackBar.open('Failed to add to favorites', 'OK', {
+        duration: 2000,
+      });
+    }
+  }
+
+  removeFavorite(movieId: string): void {
+    // Implement your remove favorite logic here
+    const username = localStorage.getItem('user');
+    if (username) {
+      this.fetchApiData.deleteFavoriteMovie(username, movieId).subscribe(
+        (response: any) => {
+          // Update the favorites list
           this.favorites = this.favorites.filter((id) => id !== movieId);
           this.snackBar.open('Removed from favorites', 'OK', {
             duration: 2000,
           });
-        });
+        },
+        (error: any) => {
+          console.error('Error removing movie from favorites:', error);
+          this.snackBar.open('Failed to remove from favorites', 'OK', {
+            duration: 2000,
+          });
+        }
+      );
     } else {
-      this.fetchApiData.addFavoriteMovie(username!, movieId).subscribe(() => {
-        // Movie added to favorites list
-        this.favorites.push(movieId);
-        this.snackBar.open('Added to favorites', 'OK', {
-          duration: 2000,
-        });
+      console.error('Username not found in local storage');
+      this.snackBar.open('Failed to remove from favorites', 'OK', {
+        duration: 2000,
       });
     }
   }
