@@ -1,4 +1,7 @@
 <!DOCTYPE html>
+<button mat-raised-button color="primary" routerLink="/profile">
+  User Profile
+</button>
 <div class="movie-card-container">
   <div class="movie-card" *ngFor="let movie of movies">
     <img class="movie-image" [src]="movie.ImagePath" alt="{{ movie.title }}" />
