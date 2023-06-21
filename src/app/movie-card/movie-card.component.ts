@@ -37,7 +37,7 @@ export class MovieCardComponent implements OnInit {
     if (username) {
       this.fetchApiData.getUserFavorites(username).subscribe(
         (favorites: any[]) => {
-          this.favorites = favorites.map((movie) => movie._id);
+          this.favorites = favorites;
         },
         (error: any) => {
           console.error('Error retrieving user favorites:', error);
